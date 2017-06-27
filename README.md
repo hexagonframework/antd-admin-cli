@@ -10,7 +10,7 @@ Install, create and start.
 
 ```bash
 # Install
-$ yarn install antd-admin-cli -g
+$ yarn add antd-admin-cli -g
 
 # Create app
 $ atda new myapp
