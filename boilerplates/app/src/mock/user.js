@@ -98,12 +98,6 @@ module.exports = {
     }
   },
 
-  [`POST ${apiPrefix}/user/test`] (req, res) {
-    console.log(req.body)
-    res.json({ success: true, message: req.body.username })
-    res.status(200).end()
-  },
-
   [`GET ${apiPrefix}/user/logout`] (req, res) {
     res.clearCookie('token')
     res.status(200).end()
