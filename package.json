@@ -1,6 +1,6 @@
 {
   "name": "antd-admin-cli",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "The antd admin command line utility.",
   "repository": {
     "type": "git",
