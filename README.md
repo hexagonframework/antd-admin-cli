@@ -32,6 +32,7 @@ Create app with new directory.
 
 ```bash
 $ atda new myapp
+$ atda new myapp --simple
 $ atda new myapp --no-install
 ```
 

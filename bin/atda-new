@@ -9,7 +9,7 @@ const error = chalk.red;
 
 program
   .usage('[options] appName')
-  .option('--simple', 'Use which template to generate a project')
+  .option('--simple', 'Use simple template to generate a project')
   .option('--no-install', 'Disable yarn install after files created')
   .parse(process.argv);
 

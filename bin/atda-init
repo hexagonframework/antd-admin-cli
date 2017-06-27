@@ -3,7 +3,7 @@
 const program = require('commander');
 
 program
-  .option('--demo', 'Generate atda project for demo')
+  .option('--simple', 'Use simple template to generate a project')
   .option('--no-install', 'Install dependencies after boilerplate, default: true')
   .parse(process.argv);
 
