@@ -16,7 +16,7 @@
     "axios": "^0.16.2",
     "babel-runtime": "^6.9.2",
     "classnames": "^2.2.5",
-    "dva": "^1.2.0",
+    "dva": "^1.2.1",
     "dva-loading": "^0.2.0",
     "dva-model-extend": "^0.1.1",
     "jsonp": "^0.2.1",
