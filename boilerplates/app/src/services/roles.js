@@ -1,11 +1,11 @@
 import { request, config } from '../utils'
 
 const { api } = config
-const { user } = api
+const { roles, role, grantPermissions } = api
 
 export async function query (params) {
   return request({
-    url: user,
+    url: roles,
     method: 'get',
     data: params,
   })
@@ -13,7 +13,7 @@ export async function query (params) {
 
 export async function create (params) {
   return request({
-    url: user.replace('/:id', ''),
+    url: roles,
     method: 'post',
     data: params,
   })
@@ -21,7 +21,7 @@ export async function create (params) {
 
 export async function remove (params) {
   return request({
-    url: user,
+    url: role,
     method: 'delete',
     data: params,
   })
@@ -29,8 +29,16 @@ export async function remove (params) {
 
 export async function update (params) {
   return request({
-    url: user,
-    method: 'patch',
+    url: role,
+    method: 'PATCH',
+    data: params,
+  })
+}
+
+export async function grant (params) {
+  return request({
+    url: grantPermissions,
+    method: 'post',
     data: params,
   })
 }

@@ -3,24 +3,31 @@ const Mock = require('mockjs')
 const config = require('../utils/config')
 
 const { apiPrefix } = config
+const Random = Mock.Random
 
 let usersListData = Mock.mock({
   'data|80-100': [
     {
       id: '@id',
-      name: '@name',
+      name: '@cname',
       nickName: '@last',
-      phone: /^1[34578]\d{9}$/,
-      'age|11-99': 1,
-      address: '@county(true)',
-      isMale: '@boolean',
+      mobile: /1(3[0-9]|4[57]|5[0-35-9]|7[01678]|8[0-9])\d{8}/,
       email: '@email',
-      createTime: '@datetime',
       avatar () {
         return Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', this.nickName.substr(0, 1))
       },
-    },
-  ],
+      'status|1-2': 1,
+      'age|11-99': 1,
+      address: '@county(true)',
+      isMale: '@boolean',
+      'isadmin|0-1': 1,
+      createdTime: () => {
+        return Random.datetime('yyyy-MM-dd HH:mm:ss')
+      },
+      updatedTime: () => {
+        return Random.datetime('yyyy-MM-dd HH:mm:ss')
+      },
+    }],
 })
 
 
@@ -28,12 +35,12 @@ let database = usersListData.data
 
 const userPermission = {
   DEFAULT: [
-    'dashboard', 'chart',
+    'dashboard',
   ],
   ADMIN: [
-    'dashboard', 'users', 'UIElement', 'UIElementIconfont', 'chart',
+    'dashboard', 'users', 'roles', 'permissions',
   ],
-  DEVELOPER: ['dashboard', 'users', 'UIElement', 'UIElementIconfont', 'chart'],
+  DEVELOPER: ['dashboard', 'users', 'roles', 'permissions'],
 }
 
 const adminUsers = [
@@ -103,7 +110,7 @@ module.exports = {
     res.status(200).end()
   },
 
-  [`GET ${apiPrefix}/user`] (req, res) {
+  [`GET ${apiPrefix}/user/me`] (req, res) {
     const cookie = req.headers.cookie || ''
     const cookies = qs.parse(cookie.replace(/\s/g, ''), { delimiter: ';' })
     const response = {}
@@ -128,7 +135,7 @@ module.exports = {
     res.json(response)
   },
 
-  [`GET ${apiPrefix}/users`] (req, res) {
+  [`GET ${apiPrefix}/user`] (req, res) {
     const { query } = req
     let { pageSize, page, ...other } = query
     pageSize = pageSize || 10
@@ -141,7 +148,7 @@ module.exports = {
           if ({}.hasOwnProperty.call(item, key)) {
             if (key === 'address') {
               return other[key].every(iitem => item[key].indexOf(iitem) > -1)
-            } else if (key === 'createTime') {
+            } else if (key === 'createdTime') {
               const start = new Date(other[key][0]).getTime()
               const end = new Date(other[key][1]).getTime()
               const now = new Date(item[key]).getTime()
@@ -160,11 +167,13 @@ module.exports = {
 
     res.status(200).json({
       data: newData.slice((page - 1) * pageSize, page * pageSize),
+      page: page,
+      pageSize: pageSize,
       total: newData.length,
     })
   },
 
-  [`DELETE ${apiPrefix}/users`] (req, res) {
+  [`DELETE ${apiPrefix}/user`] (req, res) {
     const { ids } = req.body
     database = database.filter((item) => !ids.some(_ => _ === item.id))
     res.status(204).end()
@@ -173,7 +182,7 @@ module.exports = {
 
   [`POST ${apiPrefix}/user`] (req, res) {
     const newData = req.body
-    newData.createTime = Mock.mock('@now')
+    newData.createdTime = Mock.mock('@now')
     newData.avatar = newData.avatar || Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.nickName.substr(0, 1))
     newData.id = Mock.mock('@id')
 

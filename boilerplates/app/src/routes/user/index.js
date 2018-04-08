@@ -16,7 +16,7 @@ const User = ({ location, dispatch, user, loading }) => {
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects['user/update'],
-    title: `${modalType === 'create' ? 'Create User' : 'Update User'}`,
+    title: `${modalType === 'create' ? '创建用户' : '修改用户'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -131,9 +131,9 @@ const User = ({ location, dispatch, user, loading }) => {
          selectedRowKeys.length > 0 &&
            <Row style={{ marginBottom: 24, textAlign: 'right', fontSize: 13 }}>
              <Col>
-               {`Selected ${selectedRowKeys.length} items `}
-               <Popconfirm title={'Are you sure delete these items?'} placement="left" onConfirm={handleDeleteItems}>
-                 <Button type="primary" size="large" style={{ marginLeft: 8 }}>Remove</Button>
+               {`已选择${selectedRowKeys.length}条记录`}
+               <Popconfirm title={'确认删除这些记录?'} placement="left" onConfirm={handleDeleteItems}>
+                 <Button type="primary" size="large" style={{ marginLeft: 8 }}>删除</Button>
                </Popconfirm>
              </Col>
            </Row>

@@ -5,6 +5,8 @@ import lodash from 'lodash'
 import pathToRegexp from 'path-to-regexp'
 import { message } from 'antd'
 import { YQL, CORS } from './config'
+// import { getCookie } from './helper'
+import { redirectLogin } from './auth'
 
 const fetch = (options) => {
   let {
@@ -72,6 +74,18 @@ const fetch = (options) => {
   }
 }
 
+function checkStatus (response) {
+  if (response && response.status === 401) {
+    redirectLogin()
+  }
+  if (response.status >= 200 && response.status < 500) {
+    return response
+  }
+  const error = new Error(response.statusText)
+  error.response = response
+  throw error
+}
+
 export default function request (options) {
   if (options.url && options.url.indexOf('//') > -1) {
     const origin = `${options.url.split('//')[0]}//${options.url.split('//')[1].split('/')[0]}`
@@ -85,8 +99,12 @@ export default function request (options) {
       }
     }
   }
-
-  return fetch(options).then((response) => {
+  // const ssoToken = getCookie('sso_token')
+  // const authHeader = getAuthHeader(ssoToken)
+  // TODO put in header
+  return fetch(options)
+  .then(checkStatus)
+  .then((response) => {
     const { statusText, status } = response
     let data = options.fetchType === 'YQL' ? response.data.query.results.json : response.data
     return {

@@ -16,7 +16,7 @@ const { dashboard, users, userLogin, user, v1test, v2test } = api
 
 const requestOptions = [
   {
-    url: user.replace('/:id', ''),
+    url: users,
     desc: 'intercept request by mock.js',
   },
   {
@@ -33,10 +33,6 @@ const requestOptions = [
     desc: 'intercept request by mock.js',
   },
   {
-    url: users,
-    desc: 'intercept request by mock.js',
-  },
-  {
     url: user,
     desc: 'intercept request by mock.js',
     data: Mock.mock({
@@ -44,13 +40,13 @@ const requestOptions = [
     }),
   },
   {
-    url: user.replace('/:id', ''),
+    url: users,
     desc: 'intercept request by mock.js',
     method: 'post',
     data: Mock.mock({
       name: '@cname',
       nickName: '@last',
-      phone: /^1[34578]\d{9}$/,
+      mobile: /^1[34578]\d{9}$/,
       'age|11-99': 1,
       address: '@county(true)',
       isMale: '@boolean',

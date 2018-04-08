@@ -1,10 +1,9 @@
 import modelExtend from 'dva-model-extend'
-import { create, remove, update } from '../services/user'
 import * as usersService from '../services/users'
 import { pageModel } from './common'
 import { config } from '../utils'
 
-const { query } = usersService
+const { query, create, remove, update } = usersService
 const { prefix } = config
 
 export default modelExtend(pageModel, {
@@ -62,7 +61,7 @@ export default modelExtend(pageModel, {
     },
 
     *'multiDelete' ({ payload }, { call, put }) {
-      const data = yield call(usersService.remove, payload)
+      const data = yield call(usersService.batchRemove, payload)
       if (data.success) {
         yield put({ type: 'updateState', payload: { selectedRowKeys: [] } })
         yield put({ type: 'query' })

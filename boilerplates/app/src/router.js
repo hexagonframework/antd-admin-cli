@@ -33,8 +33,8 @@ const Routers = function ({ history, app }) {
           path: 'user',
           getComponent (nextState, cb) {
             require.ensure([], (require) => {
-              registerModel(app, require('./models/user'))
-              cb(null, require('./routes/user/'))
+              registerModel(app, require('./models/users'))
+              cb(null, require('./routes/rbac/Users'))
             }, 'user')
           },
         }, {
@@ -52,6 +52,22 @@ const Routers = function ({ history, app }) {
               registerModel(app, require('./models/login'))
               cb(null, require('./routes/login/'))
             }, 'login')
+          },
+        }, {
+          path: 'role',
+          getComponent (nextState, cb) {
+            require.ensure([], (require) => {
+              registerModel(app, require('./models/roles'))
+              cb(null, require('./routes/rbac/Roles'))
+            }, 'role')
+          },
+        }, {
+          path: 'permission',
+          getComponent (nextState, cb) {
+            require.ensure([], (require) => {
+              registerModel(app, require('./models/permissions'))
+              cb(null, require('./routes/rbac/Permissions'))
+            }, 'permission')
           },
         }, {
           path: 'request',
